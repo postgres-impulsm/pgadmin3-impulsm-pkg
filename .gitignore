@@ -1,6 +1,6 @@
 # -*- mode: text; coding: utf-8 -*-
 
-/pkg
-/src
-/*.pkg.tar.xz
 /pgadmin3
+/src
+/pkg
+/*.pkg.tar.xz
