@@ -10,7 +10,7 @@ _orig_pkgrel=5
 pkgname=pgadmin3-impulsm
 _gitpkgver=843b56c
 pkgver=1.20.0.g$_gitpkgver
-pkgrel=2
+pkgrel=3
 pkgdesc="Comprehensive design and management interface for PostgreSQL"
 arch=('i686' 'x86_64')
 url="http://www.pgadmin.org"
@@ -51,11 +51,11 @@ package() {
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/pgadmin3/LICENSE"
 
   install -Dm644 pgadmin/include/images/pgAdmin3.ico "$pkgdir/usr/share/pgadmin3/pgAdmin3.ico"
-  install -Dm644 "$srcdir/pgAdmin3-0.png" "$pkgdir/usr/share/pgadmin3/pgAdmin3.png"
+  install -Dm644 "$srcdir/pgAdmin3-3.png" "$pkgdir/usr/share/pgadmin3/pgAdmin3.png"
 
-  install -Dm644 "$srcdir/pgAdmin3-3.png" "$pkgdir/usr/share/icons/hicolor/16x16/apps/pgAdmin3.png"
-  install -Dm644 "$srcdir/pgAdmin3-2.png" "$pkgdir/usr/share/icons/hicolor/32x32/apps/pgAdmin3.png"
-  install -Dm644 "$srcdir/pgAdmin3-1.png" "$pkgdir/usr/share/icons/hicolor/48x48/apps/pgAdmin3.png"
+  install -Dm644 "$srcdir/pgAdmin3-5.png" "$pkgdir/usr/share/icons/hicolor/16x16/apps/pgAdmin3.png"
+  install -Dm644 "$srcdir/pgAdmin3-4.png" "$pkgdir/usr/share/icons/hicolor/32x32/apps/pgAdmin3.png"
+  install -Dm644 "$srcdir/pgAdmin3-3.png" "$pkgdir/usr/share/icons/hicolor/48x48/apps/pgAdmin3.png"
 
   install -Dm644 "pkg/pgadmin3.desktop" "$pkgdir/usr/share/applications/pgadmin3.desktop"
 }
