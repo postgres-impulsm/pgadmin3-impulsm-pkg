@@ -1,56 +1,60 @@
-# $Id$
+# $Id: PKGBUILD 208606 2017-01-23 17:18:42Z arojas $
 # Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
 # Maintainer: Douglas Soares de Andrade <dsa@aur.archlinux.org>
 # Contributor: Benjamin Andresen <benny@klapmuetz.org>
 # Contributor: bekks <eduard.warkentin@gmx.de>
 
-_orig_pkgname=pgadmin3
-_orig_pkgver=1.22.0
 pkgname=pgadmin3-impulsm
-_gitpkgver=ac09fe0
-pkgver=1.22.0.g$_gitpkgver
+_gitpkgver=203b018
+pkgver=1.22.2+git$_gitpkgver
 pkgrel=1
+conflicts=("pgadmin3")
+provides=("pgadmin3=1.22.2")
 pkgdesc="Comprehensive design and management interface for PostgreSQL"
 arch=('i686' 'x86_64')
 url="http://www.pgadmin.org"
 license=('custom')
-depends=('wxgtk2.8' 'postgresql-libs' 'libxslt')
+depends=('wxgtk' 'postgresql-libs' 'libxslt')
 makedepends=('libpqxx' 'krb5' 'postgresql' 'imagemagick')
-install=pgadmin3.install
+validpgpkeys=('E0C4CEEB826B1FDA4FB468E024ADFAAF698F1519')
 source=("git+https://github.com/postgres-impulsm/pgadmin3.git#commit=$_gitpkgver"
-        '0001-Move-misplaced-unlock-of-s_currentObjectMutex.patch')
-md5sums=('SKIP'
-         '69fbfdfe1bac75d7d1cdfeacd322cf5d')
-conflicts=("$_orig_pkgname")
-provides=("$_orig_pkgname=$_orig_pkgver")
+        pgadmin3-fix-segfault.patch)
+sha256sums=('SKIP'
+            'b175869b77bcbfa43f1bc256277966882789883792c4f9dd26038ec248def6a2')
 
 prepare() {
   cd "$srcdir"
+  #ORIG_PKG_LINE#convert pgadmin3-${pkgver}/pgadmin/include/images/pgAdmin3.ico pgAdmin3.png
   convert pgadmin3/pgadmin/include/images/pgAdmin3.ico pgAdmin3.png
 
-  cd "pgadmin3"
-  ./bootstrap
-  sed -i 's/wx-config/wx-config-2.8/' configure
-  sed -i 's/wxrc/wxrc-2.8/g' stringextract pgadmin/ui/embed-xrc
+# Fix segfault at startup (Debian)
+  #ORIG_PKG_LINE#cd $pkgname-$pkgver
+  cd pgadmin3
 
-  patch -p1 <$srcdir/0001-Move-misplaced-unlock-of-s_currentObjectMutex.patch
+  patch -p1 -i ../pgadmin3-fix-segfault.patch
 }
 
 build() {
-  cd "$srcdir"/pgadmin3
-  [ -f Makefile ] ||  ./configure --prefix=/usr --with-wx-version=2.8
+  #ORIG_PKG_LINE#cd "$srcdir"/pgadmin3-${pkgver}
+  cd "$srcdir/pgadmin3"
+
+  ./bootstrap
+  [ -f Makefile ] ||  ./configure --prefix=/usr --with-wx-version=3.0
   make
 }
 
 package() {
-  cd "$srcdir"/pgadmin3
+  #ORIG_PKG_LINE#cd "$srcdir"/pgadmin3-${pkgver}
+  cd "$srcdir/pgadmin3"
 
   make DESTDIR="$pkgdir/" install
+  #ORIG_PKG_LINE#install -Dm644 i18n/$pkgname.lng "$pkgdir/usr/share/pgadmin3/i18n"
+  #ORIG_PKG_LINE#install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
   install -Dm644 i18n/pgadmin3.lng "$pkgdir/usr/share/pgadmin3/i18n"
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/pgadmin3/LICENSE"
 
   install -Dm644 pgadmin/include/images/pgAdmin3.ico "$pkgdir/usr/share/pgadmin3/pgAdmin3.ico"
-  install -Dm644 "$srcdir/pgAdmin3-0.png" "$pkgdir/usr/share/pgadmin3/pgAdmin3.png"
+  install -Dm644 "$srcdir/pgAdmin3-1.png" "$pkgdir/usr/share/pgadmin3/pgAdmin3.png"
 
   install -Dm644 "$srcdir/pgAdmin3-3.png" "$pkgdir/usr/share/icons/hicolor/16x16/apps/pgAdmin3.png"
   install -Dm644 "$srcdir/pgAdmin3-2.png" "$pkgdir/usr/share/icons/hicolor/32x32/apps/pgAdmin3.png"
