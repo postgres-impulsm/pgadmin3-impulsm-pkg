@@ -5,9 +5,9 @@
 # Contributor: bekks <eduard.warkentin@gmx.de>
 
 pkgname=pgadmin3-impulsm
-_gitpkgver=203b018
+_gitpkgver=5bc53ac
 pkgver=1.22.2+git$_gitpkgver
-pkgrel=1
+pkgrel=2
 conflicts=("pgadmin3")
 provides=("pgadmin3=1.22.2")
 pkgdesc="Comprehensive design and management interface for PostgreSQL"
