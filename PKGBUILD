@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 208606 2017-01-23 17:18:42Z arojas $
+# $Id: PKGBUILD 225034 2017-04-24 12:16:13Z jgc $
 # Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
 # Maintainer: Douglas Soares de Andrade <dsa@aur.archlinux.org>
 # Contributor: Benjamin Andresen <benny@klapmuetz.org>
@@ -7,14 +7,14 @@
 pkgname=pgadmin3-impulsm
 _gitpkgver=5bc53ac
 pkgver=1.22.2+git$_gitpkgver
-pkgrel=2
+pkgrel=3
 conflicts=("pgadmin3")
 provides=("pgadmin3=1.22.2")
 pkgdesc="Comprehensive design and management interface for PostgreSQL"
 arch=('i686' 'x86_64')
 url="http://www.pgadmin.org"
 license=('custom')
-depends=('wxgtk' 'postgresql-libs' 'libxslt')
+depends=('wxgtk' 'postgresql-libs' 'libxslt' 'libgcrypt')
 makedepends=('libpqxx' 'krb5' 'postgresql' 'imagemagick')
 validpgpkeys=('E0C4CEEB826B1FDA4FB468E024ADFAAF698F1519')
 source=("git+https://github.com/postgres-impulsm/pgadmin3.git#commit=$_gitpkgver"
@@ -39,7 +39,7 @@ build() {
   cd "$srcdir/pgadmin3"
 
   ./bootstrap
-  [ -f Makefile ] ||  ./configure --prefix=/usr --with-wx-version=3.0
+  ./configure --prefix=/usr --with-wx-version=3.0 --with-libgcrypt
   make
 }
 
