@@ -5,7 +5,7 @@
 # Contributor: bekks <eduard.warkentin@gmx.de>
 
 pkgname=pgadmin3-impulsm
-_gitpkgver=bf713d049
+_gitpkgver=94b0c2cb0
 pkgver=1.22.2+git$_gitpkgver
 pkgrel=1
 conflicts=("pgadmin3")
